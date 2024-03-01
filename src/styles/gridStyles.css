@@ -1,0 +1,31 @@
+.grid-table {
+    width: 800px; /* Ancho completo */
+    border-collapse: collapse; /* Combinar bordes de celdas */
+  }
+  
+  .grid-table th, .grid-table td {
+    border: 1px solid #ddd; /* Borde para celdas */
+    padding: 8px; /* Espacio interno */
+    text-align: left; /* Alinear texto a la izquierda */
+    color: black;
+  }
+  
+  .grid-table th {
+    background-color: #E7F0F7; /* Color de fondo para encabezados */
+    color: black;
+    text-align: center;
+  }
+  
+  
+  
+  .grid-table tr:hover {
+    background-color: #ddd; /* Color de fondo al pasar el ratón */
+  }
+  
+  .ver-cie-10 {
+    background-color: green; /* Color de fondo para botón "Ver CIE-10" */
+    color: white; /* Texto en blanco */
+    border: none; /* Sin borde */
+    padding: 8px 16px; /* Espacio interno */
+    cursor: pointer; /* Cursor de puntero al pasar el ratón */
+  }
