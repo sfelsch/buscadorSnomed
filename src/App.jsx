@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react';
 import InputText from './components/InputText';
 import Button from './components/Button';
 import Grid from './components/Grid';
@@ -14,7 +14,7 @@ function App() {
       const response = await fetch(`https://snowstorm-test.msal.gob.ar/MAIN/concepts?term=${encodedSearchQuery}&offset=0&limit=50`, {
         headers: {
           'Accept': 'application/json',
-          'Accept-Language': 'en' // Ajusta el valor del encabezado Accept-Language
+          'Accept-Language': 'es'
         }
       });
       if (!response.ok) {
@@ -34,9 +34,15 @@ function App() {
       console.error('Error fetching data:', error);
     }
   };
+
   return (
     <div>
-      <InputText value={searchQuery} onChange={setSearchQuery} />
+      <h1>Nomenclador Snomed</h1>
+      <InputText 
+        value={searchQuery} 
+        onChange={setSearchQuery} 
+        onEnter={handleSearch}
+      />
       <Button onClick={handleSearch}>Buscar</Button>
       <Grid data={searchResults} />
     </div>
