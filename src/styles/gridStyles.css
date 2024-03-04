@@ -1,8 +1,28 @@
 .grid-table {
-    width: 800px;
     border-collapse: collapse;
   }
+  .divGrid{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .pagination{
+    width: 100%;
+    margin-top: 5px;
+  }
+  .pagination button {
+    
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+  }
   
+  .pagination button:hover {
+    background-color: #0056b3;
+  }
   .grid-table th, .grid-table td {
     border: 1px solid #ddd;
     padding: 8px;
@@ -28,4 +48,39 @@
     border: none;
     padding: 8px 16px;
     cursor: pointer;
+  }
+
+  .grid-table {
+    width: 80%;
+    table-layout: fixed;
+    
+  }
+  
+  .grid-table th,
+  .grid-table td {
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #dddddd;
+  }
+  
+  /* Estilo para la primera columna */
+  .grid-table th:first-child,
+  .grid-table td:first-child {
+    text-align: center;
+    width: 15%;
+  }
+  
+  /* Estilo para la segunda columna */
+  .grid-table th:nth-child(2),
+  .grid-table td:nth-child(2) {
+    text-align: left;
+    padding-left: 20px;
+    width: 60%;
+  }
+  
+  /* Estilo para la tercera columna */
+  .grid-table th:last-child,
+  .grid-table td:last-child {
+    text-align: center;
+    width: 10%;
   }

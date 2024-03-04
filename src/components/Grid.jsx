@@ -12,11 +12,13 @@ const Grid = ({ data }) => {
   const [selectedConceptId, setSelectedConceptId] = useState('');
   const [cie10Code, setCie10Code] = useState('');
   const [isValidCode, setIsValidCode] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const resultsPerPage = 7;
 
   const handleVerCie10Click = async (conceptId) => {
     setSelectedConceptId(conceptId);
     try {
-      const response = await fetch(`https://snowstorm-test.msal.gob.ar/MAIN/members?referencedComponentId=${conceptId}&offset=0&limit=50`, {
+      const response = await fetch(`https://snowstorm-test.msal.gob.ar/MAIN/members?referencedComponentId=${conceptId}&offset=0&limit=${currentPage * resultsPerPage}`, {
         headers: {
           'Accept': 'application/json',
           'Accept-Language': 'en'
@@ -45,8 +47,16 @@ const Grid = ({ data }) => {
     }
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const indexOfLastResult = currentPage * resultsPerPage;
+  const indexOfFirstResult = indexOfLastResult - resultsPerPage;
+  const currentResults = data.slice(indexOfFirstResult, indexOfLastResult);
+
   return (
-    <div>
+    <div className="divGrid">
       <table className="grid-table">
         <thead>
           <tr>
@@ -56,7 +66,7 @@ const Grid = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
+          {currentResults.map((item, index) => (
             <tr key={index}>
               <td>{item.conceptId}</td>
               <td>{item.term}</td>
@@ -70,8 +80,7 @@ const Grid = ({ data }) => {
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
         {isValidCode ? (
           <>
-            <h2>Código CIE-10 para el Concept ID: {selectedConceptId}</h2>
-            <p>{cie10Code}</p>
+            <h2>Código CIE-10: {cie10Code}</h2>
             <button onClick={() => setModalIsOpen(false)}>Cerrar</button>
           </>
         ) : (
@@ -82,6 +91,11 @@ const Grid = ({ data }) => {
           </>
         )}
       </Modal>
+      <div className="pagination">
+        {Array.from({ length: Math.ceil(data.length / resultsPerPage) }, (_, index) => (
+          <button key={index} onClick={() => handlePageChange(index + 1)}>{index + 1}</button>
+        ))}
+      </div>
     </div>
   );
 };
