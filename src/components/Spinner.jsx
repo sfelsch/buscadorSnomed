@@ -3,7 +3,7 @@ import '../styles/spinnerStyles.css';
 
 const Spinner = () => {
   return (
-    <div className="spinner-container">
+    <div className="spinner-overlay">
       <div className="spinner"></div>
     </div>
   );

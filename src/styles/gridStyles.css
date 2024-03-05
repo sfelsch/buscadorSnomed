@@ -84,3 +84,11 @@
     text-align: center;
     width: 10%;
   }
+  .copy-button{
+    background-color: white;
+    padding: 0px;
+  }
+  .copy-button:hover {
+    border-color: none;
+    background-color: white;
+  }

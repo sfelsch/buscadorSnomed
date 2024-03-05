@@ -7,6 +7,12 @@ const isValidCIE10Code = (code) => {
   return regex.test(code);
 };
 
+const copyToClipboard = (text) => {
+  navigator.clipboard.writeText(text)
+    .then(() => console.log('Texto copiado al portapapeles:', text))
+    .catch((error) => console.error('Error al copiar al portapapeles:', error));
+};
+
 const Grid = ({ data }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedConceptId, setSelectedConceptId] = useState('');
@@ -61,7 +67,7 @@ const Grid = ({ data }) => {
         <thead>
           <tr>
             <th>Concept ID</th>
-            <th>Term</th>
+            <th>Diagnósticos</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -80,7 +86,12 @@ const Grid = ({ data }) => {
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
         {isValidCode ? (
           <>
-            <h2>Código CIE-10: {cie10Code}</h2>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <h2 style={{ marginRight: '10px' }}>Código CIE-10: {cie10Code}</h2>
+              <button className="copy-button" onClick={() => copyToClipboard(cie10Code)}>
+                <img src="/src/img/copiar.png" alt="Copiar" style={{ width: '17px'}} />
+              </button>
+            </div>
             <button onClick={() => setModalIsOpen(false)}>Cerrar</button>
           </>
         ) : (

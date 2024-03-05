@@ -25,7 +25,7 @@ function App() {
       }
       const data = await response.json();
       if (data.items) {
-        
+
         const filteredData = data.items.filter(item => item.fsn.term.includes('(trastorno)'));
         const formattedData = filteredData.map(item => ({
           conceptId: item.conceptId,
@@ -38,21 +38,30 @@ function App() {
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
   return (
     <div>
-      <h1>Nomenclador Snomed</h1>
-      <InputText 
-        value={searchQuery} 
-        onChange={setSearchQuery} 
-        onEnter={handleSearch}
-      />
-      <Button onClick={handleSearch}>Buscar</Button>
-      {loading ? <Spinner /> : <Grid data={searchResults} />}
-    </div>
+      <div className="contenedor">
+        <div className="contH1">
+        <h1>Nomenclador Snomed</h1>
+        </div>
+      <div className="contInputButton">
+      <InputText
+      value={searchQuery}
+      onChange={setSearchQuery}
+      onEnter={handleSearch}
+    />
+    <Button onClick={handleSearch}>Buscar</Button>
+      </div>
+ 
+      </div>
+    
+    <Grid data={searchResults} />
+    {loading && <Spinner />} {/* Mostrar el Spinner solo si loading es true */}
+  </div>
   );
 }
 
