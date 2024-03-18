@@ -92,3 +92,14 @@
     border-color: none;
     background-color: white;
   }
+
+  .botonExportar{
+    margin-bottom: 5px;
+  }
+.contenedorExportar{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+}
+  

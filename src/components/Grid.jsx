@@ -13,6 +13,25 @@ const copyToClipboard = (text) => {
     .catch((error) => console.error('Error al copiar al portapapeles:', error));
 };
 
+const escapeCsvCell = (cell) => {
+  
+  if (cell.includes(',')) {
+    return `"${cell}"`;
+  }
+  return cell;
+};
+
+const exportToCsv = (filename, data) => {
+  const csvContent = "data:text/csv;charset=utf-8," +
+    data.map(row => row.map(cell => escapeCsvCell(cell)).join(",")).join("\n");
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", filename);
+  document.body.appendChild(link);
+  link.click();
+};
+
 const Grid = ({ data }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedConceptId, setSelectedConceptId] = useState('');
@@ -24,7 +43,7 @@ const Grid = ({ data }) => {
   const handleVerCie10Click = async (conceptId) => {
     setSelectedConceptId(conceptId);
     try {
-      const response = await fetch(`https://snowstorm-test.msal.gob.ar/MAIN/members?referencedComponentId=${conceptId}&offset=0&limit=${currentPage * resultsPerPage}`, {
+      const response = await fetch(`https://snowstorm-test.msal.gob.ar/MAIN/members?referencedComponentId=${conceptId}`, {
         headers: {
           'Accept': 'application/json',
           'Accept-Language': 'en'
@@ -46,11 +65,15 @@ const Grid = ({ data }) => {
         setModalIsOpen(true);
       } else {
         setIsValidCode(false);
-        console.log("No se encontró un código CIE-10 válido en los elementos.");
+        setModalIsOpen(true); // Abrir el modal cuando no se encuentra el código CIE-10
       }
     } catch (error) {
       console.error('Error fetching CIE-10 code:', error);
     }
+  };
+
+  const handleExportClick = () => {
+    exportToCsv('grid_data.csv', data.map(row => [row.conceptId, row.term]));
   };
 
   const handlePageChange = (page) => {
@@ -62,27 +85,37 @@ const Grid = ({ data }) => {
   const currentResults = data.slice(indexOfFirstResult, indexOfLastResult);
 
   return (
-    <div className="divGrid">
-      <table className="grid-table">
-        <thead>
-          <tr>
-            <th>Concept ID</th>
-            <th>Diagnósticos</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentResults.map((item, index) => (
-            <tr key={index}>
-              <td>{item.conceptId}</td>
-              <td>{item.term}</td>
-              <td>
-                <button className="ver-cie-10" onClick={() => handleVerCie10Click(item.conceptId)}>Ver CIE-10</button>
-              </td>
+    <div>
+      <div className="divGrid">
+        <table className="grid-table">
+          <thead>
+            <tr>
+              <th>Concept ID</th>
+              <th>Diagnósticos</th>
+              <th>Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {currentResults.map((item, index) => (
+              <tr key={index}>
+                <td>{item.conceptId}</td>
+                <td>{item.term}</td>
+                <td>
+                  <button className="ver-cie-10" onClick={() => handleVerCie10Click(item.conceptId)}>Ver CIE-10</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="pagination">
+        {Array.from({ length: Math.ceil(data.length / resultsPerPage) }, (_, index) => (
+          <button key={index + 1} onClick={() => handlePageChange(index + 1)}>{index + 1}</button>
+        ))}
+      </div>
+      <div className="contenedorExportar">
+        <button onClick={handleExportClick} className='botonExportar'>Exportar a CSV</button>
+      </div>
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
         {isValidCode ? (
           <>
@@ -98,15 +131,10 @@ const Grid = ({ data }) => {
           <>
             <h2>Error</h2>
             <p>El código CIE-10 no es válido.</p>
-            <button onClick={() => setIsValidCode(true)}>Aceptar</button>
+            <button onClick={() => setModalIsOpen(false)}>Aceptar</button>
           </>
         )}
       </Modal>
-      <div className="pagination">
-        {Array.from({ length: Math.ceil(data.length / resultsPerPage) }, (_, index) => (
-          <button key={index} onClick={() => handlePageChange(index + 1)}>{index + 1}</button>
-        ))}
-      </div>
     </div>
   );
 };
