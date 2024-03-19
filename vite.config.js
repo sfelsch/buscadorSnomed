@@ -1,18 +1,17 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  base: "/",
+  base: '/',
   plugins: [react()],
-  preview: {
-   port: 8080,
-   strictPort: true,
-  },
   server: {
-   port: 8080,
-   strictPort: true,
-   host: true,
-   origin: "http://0.0.0.0:8080",
+    proxy: {
+      '/snowstorm': {
+        target: 'https://snowstorm-test.msal.gob.ar',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/snowstorm/, ''),
+      },
+    },
+    port: 9090, // Cambiar el puerto a 9090
   },
- });
+});

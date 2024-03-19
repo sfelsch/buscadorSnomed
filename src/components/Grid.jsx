@@ -43,7 +43,7 @@ const Grid = ({ data }) => {
   const handleVerCie10Click = async (conceptId) => {
     setSelectedConceptId(conceptId);
     try {
-      const response = await fetch(`https://snowstorm-test.msal.gob.ar/MAIN/members?referencedComponentId=${conceptId}`, {
+      const response = await fetch(`/snowstorm/MAIN/members?referencedComponentId=${conceptId}`, {
         headers: {
           'Accept': 'application/json',
           'Accept-Language': 'en'

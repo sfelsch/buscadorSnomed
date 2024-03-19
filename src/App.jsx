@@ -14,7 +14,7 @@ function App() {
     setLoading(true);
     try {
       const encodedSearchQuery = encodeURIComponent(searchQuery);
-      const response = await fetch(`https://snowstorm-test.msal.gob.ar/MAIN/concepts?term=${encodedSearchQuery}&offset=0&limit=50`, {
+      const response = await fetch(`/snowstorm/MAIN/concepts?term=${encodedSearchQuery}&offset=0&limit=50`, {
         headers: {
           'Accept': 'application/json',
           'Accept-Language': 'es'
