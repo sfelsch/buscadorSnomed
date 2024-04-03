@@ -14,6 +14,7 @@ export default defineConfig({
         target: 'https://snowstorm-test.msal.gob.ar',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/snowstorm/, ''),
+        secure: false
       },
     },
     port: 9090,

@@ -102,4 +102,12 @@
   justify-content: center;
   margin-top: 5px;
 }
-  
+@media only screen and (max-width: 600px) {
+  .grid-table {
+    width: 100%;
+    table-layout: auto;
+  }
+  .ver-cie-10 {
+    padding: 8px 8px;
+  }
+}

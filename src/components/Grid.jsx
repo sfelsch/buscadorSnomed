@@ -101,7 +101,7 @@ const Grid = ({ data }) => {
                 <td>{item.conceptId}</td>
                 <td>{item.term}</td>
                 <td>
-                  <button className="ver-cie-10" onClick={() => handleVerCie10Click(item.conceptId)}>Ver CIE-10</button>
+                  <button className="ver-cie-10" onClick={() => handleVerCie10Click(item.conceptId)}>CIE-10</button>
                 </td>
               </tr>
             ))}
